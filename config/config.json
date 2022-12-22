@@ -1,0 +1,10 @@
+{
+  "MYSQL": {
+    "HOST": "localhost",
+    "PORT": 3306,
+    "USERNAME": "root",
+    "password": "1001@PrVn",
+    "TYPE": "mysql",
+    "DATABASE": "tasks"
+  }
+}
