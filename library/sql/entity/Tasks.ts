@@ -16,13 +16,13 @@ export class Tasks {
   @Column()
   name: string
 
-  @Column()
+  @Column({nullable: true})
   description: string
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   start_time: Date
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   end_time: Date
 
   @Column({
@@ -32,14 +32,16 @@ export class Tasks {
   })
   task_type: TaskType
 
-  @Column()
+  @Column({
+    default: 0
+  })
   competition_percentage: number
 
   @CreateDateColumn()
-  created_by: Date
+  created_at: Date
 
   @Column()
-  created_at: number
+  created_by: number
 
   @Column({
     type: 'enum',
