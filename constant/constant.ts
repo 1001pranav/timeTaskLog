@@ -1,3 +1,4 @@
+
 const jsonSecret = "exabc_asdwec4424_sda"
 
 export { jsonSecret };
@@ -34,3 +35,25 @@ export interface tasks {
   description: string | null
 }
 
+export interface userDB {
+  id: number,
+  user_name: string,
+  email: string,
+  password: string,
+  access_token: string,
+  status: Status,
+  created_at: Date,
+  userTasks: Array<tasksDB>
+}
+
+export interface tasksDB {
+  id: number,
+  name: string, 
+  competition_percentage: number, 
+  start_time: Date | null, 
+  end_time: Date | null,
+  task_type: TaskType,
+  created_by: number,
+  status: Status,
+  description: string | null 
+}
