@@ -1,15 +1,21 @@
-import { userDB } from "../../constant/constant";
+import { Not } from "typeorm";
+
+import { Status, userDB } from "../../constant/constant";
 import { AppDataSource } from "./dataSource";
 
 import { Tasks } from "./entity/Tasks";
 import { User } from "./entity/User";
 
-const listUserTasks = async (user_id: number ) :Promise<object> => {
+const listUserTasks = async (user_id: number ) :Promise<Array<userDB>> => {
 
 const userRepository = AppDataSource.getRepository(User);
   return await userRepository.find({
     where: {
       id: user_id,
+      status: Not(Status.DELETED),
+      userTasks: {
+        status: Not(Status.DELETED)
+      }
     },
     relations: {
       userTasks: true
@@ -26,14 +32,17 @@ const userRepository = AppDataSource.getRepository(User);
   //   .take(1)
   //   .getMany()
 }
-const listUserTaskByID = async(user_id: number, task_id: number): Promise<object> => {
+
+const listUserTaskByID = async(user_id: number, task_id: number): Promise<userDB> => {
 
   const userRepository = AppDataSource.getRepository(User);
   return await userRepository.findOne({
     where: {
       id: user_id,
+      status: Not(Status.DELETED),  
       userTasks: {
-        id: task_id
+        id: task_id,
+        status: Not(Status.DELETED)
       } 
     }, 
     relations: {
@@ -41,6 +50,7 @@ const listUserTaskByID = async(user_id: number, task_id: number): Promise<object
     }
   })
 }
+
 export {
   listUserTasks,
   listUserTaskByID

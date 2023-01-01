@@ -31,8 +31,7 @@ const listTask = async (req, res, next) => {
   } else {
 
     const userDataTasks: userDB = (await listUserTasks(userData.id))[0];
-    console.log(userDataTasks);
-    
+   
     if( userDataTasks?.userTasks) {
       console.log(userDataTasks.userTasks);
       

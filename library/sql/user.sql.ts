@@ -1,4 +1,4 @@
-import { userData } from '../../constant/constant';
+import { Status, userData } from '../../constant/constant';
 import { AppDataSource } from "./dataSource";
 import { User } from "./entity/User";
 
@@ -10,7 +10,9 @@ type getUser = (userObj: {}) => Promise<userData>;
 const getUserByID = async (userID: number ) => {
   return AppDataSource.manager
     .createQueryBuilder(User, 'user')
-    .where('user.id = :id', {id: userID}).getOne();
+    .where('user.id = :id', {id: userID})
+    .andWhere('user.status != :status', {status: Status.DELETED})
+    .getOne();
 }
 
 /**

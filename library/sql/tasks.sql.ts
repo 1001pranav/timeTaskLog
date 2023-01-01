@@ -1,4 +1,4 @@
-import { Status, tasks, TaskType } from "../../constant/constant";
+import { addTasks, Status, tasksDB, TaskType, updateTask } from "../../constant/constant";
 import { AppDataSource } from "./dataSource";
 import { Tasks } from "./entity/Tasks";
 import { User } from "./entity/User";
@@ -6,7 +6,7 @@ import { User } from "./entity/User";
 
 
 const addTasks = async (
-  taskObj: tasks
+  taskObj: addTasks
 ) :Promise<object> => {
   const tasks = new Tasks();
   tasks.name = taskObj.name;
@@ -21,7 +21,12 @@ const addTasks = async (
   await AppDataSource.manager.save(tasks);
   
   return tasks;
+};
+
+const updateTask = async ( taskObj: updateTask, task_id: number) => {
+  await AppDataSource.manager.update(Tasks, {id: task_id}, taskObj);
 }
 export {
-  addTasks
+  addTasks,
+  updateTask
 };

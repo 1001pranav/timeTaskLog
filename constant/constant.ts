@@ -24,7 +24,7 @@ export interface userData {
   createdBy: number 
 }
 
-export interface tasks {
+export interface addTasks {
   name: string, 
   completionPercentage: number,
   startTime: Date | null, 
@@ -43,6 +43,7 @@ export interface userDB {
   access_token: string,
   status: Status,
   created_at: Date,
+  created_by: number,
   userTasks: Array<tasksDB>
 }
 
@@ -54,6 +55,12 @@ export interface tasksDB {
   end_time: Date | null,
   task_type: TaskType,
   created_by: number,
+  created_at: Date
   status: Status,
   description: string | null 
+}
+
+export interface updateTask {
+  [key: string]: number | string
+  status: Status | undefined
 }
