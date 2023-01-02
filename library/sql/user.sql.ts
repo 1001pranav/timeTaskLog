@@ -1,4 +1,4 @@
-import { Status, userData } from '../../constant/constant';
+import { Status, tasksDB, userData, userDB } from '../../constant/constant';
 import { AppDataSource } from "./dataSource";
 import { User } from "./entity/User";
 
@@ -39,17 +39,19 @@ const updateUser = async (id: number, updateData: object) => {
   await AppDataSource.manager.update(User, {id}, updateData);
 }
 
-const updateUserTasks = async (id: number, updateData: object) => {
+const updateUserTasks = async (id: number, updateData: tasksDB) => {
   console.log(id, updateData);
   
-  const userData: any = await AppDataSource.getRepository(User).find({
+  const userData: Array<userDB> = await AppDataSource.getRepository(User).find({
     where: {id},
     relations: { userTasks: true}
   });
   console.log(userData[0])
+  if(userData[0]) {
+    userData[0].userTasks.push(updateData);
+    await AppDataSource.getRepository(User).save(userData);
+  }
   
-  userData[0].userTasks.push(updateData);
-  await AppDataSource.getRepository(User).save(userData);
 
 }
 

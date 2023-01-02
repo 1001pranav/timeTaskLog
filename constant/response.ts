@@ -9,6 +9,11 @@ const RESPONSE = {
     "statusMessage": "Required <data>, check again!!.",
     "data": {}
   },
+  INCORRECT_DATA: {
+    "statusCode": 400,
+    "statusMessage": "<data> is incorrect, Try again after verifying.",
+    "data": {}
+  },
   PASSWORD_NOT_FOUND: {
     "statusCode": 401,
     "statusMessage": "password doesn't match",

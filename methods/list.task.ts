@@ -23,6 +23,8 @@ const listTask = async (req, res, next) => {
         description: userDataTasks.userTasks[0].description,
         start_time: userDataTasks.userTasks[0].start_time,
         end_time: userDataTasks.userTasks[0].end_time,
+        total_time: userDataTasks.userTasks[0].total_time,
+        spent_time: userDataTasks.userTasks[0].spent_time,
         completition_percentage: userDataTasks.userTasks[0].competition_percentage,
         status: userDataTasks.userTasks[0].status
       })
@@ -43,7 +45,9 @@ const listTask = async (req, res, next) => {
           name: userTasksObj.name, 
           description: userTasksObj.description, 
           end_time: userTasksObj.end_time, 
-          start_time: userTasksObj.start_time, 
+          start_time: userTasksObj.start_time,
+          spent_time: userTasksObj.spent_time,
+          total_time: userTasksObj.total_time, 
           task_type: userTasksObj.task_type,
           competition_percentage: userTasksObj.competition_percentage,
           status: userTasksObj.status

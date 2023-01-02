@@ -29,6 +29,8 @@ export interface addTasks {
   completionPercentage: number,
   startTime: Date | null, 
   endTime: Date | null,
+  totalTime: Date | null;
+  spentTime: Date | null;
   taskType: TaskType,
   createdBy: number,
   status: Status,
@@ -53,14 +55,16 @@ export interface tasksDB {
   competition_percentage: number, 
   start_time: Date | null, 
   end_time: Date | null,
+  total_time: Date | null,
+  spent_time: Date| null,
   task_type: TaskType,
   created_by: number,
   created_at: Date
   status: Status,
-  description: string | null 
+  description: string | null ,
+  SubTask: Array<tasksDB>
 }
 
 export interface updateTask {
   [key: string]: number | string
-  status: Status | undefined
 }

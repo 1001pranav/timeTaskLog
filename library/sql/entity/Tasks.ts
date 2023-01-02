@@ -37,6 +37,12 @@ export class Tasks {
   })
   competition_percentage: number
 
+  @Column('time', {default: "00:00:00"})
+  total_time: Date;
+
+  @Column({type: 'time', default: '00:00:00'})
+  spent_time: Date;
+  
   @CreateDateColumn()
   created_at: Date
 
