@@ -30,9 +30,13 @@ const updateTask = async ( taskObj: updateTask, task_id: number) => {
 const addSubTasks = async (taskObj: tasksDB, taskID: number ) => {
   const subTaskAdd: Array<tasksDB> = await AppDataSource.getRepository(Tasks).find({
     where: {
-      id: taskID
+      id: taskID,
+    },
+    relations: {
+      SubTask: true
     }
   })
+  console.log(subTaskAdd);
   
   if ( subTaskAdd[0] ) {
     subTaskAdd[0].SubTask.push(taskObj)
