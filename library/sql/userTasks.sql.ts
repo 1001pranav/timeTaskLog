@@ -1,12 +1,13 @@
-import { Not } from "typeorm";
+import { getManager, Not } from "typeorm";
 
-import { Status, userDB } from "../../constant/constant";
+import { Status, TaskType, userDB } from "../../constant/constant";
 import { AppDataSource } from "./dataSource";
 
 import { Tasks } from "./entity/Tasks";
 import { User } from "./entity/User";
 
-const listUserTasks = async (user_id: number ) :Promise<Array<userDB>> => {
+const listUserTasks = async (user_id: number, taskType: TaskType ) :Promise<Array<userDB>> => {
+console.log(taskType);
 
 const userRepository = AppDataSource.getRepository(User);
   return await userRepository.find({
@@ -14,11 +15,12 @@ const userRepository = AppDataSource.getRepository(User);
       id: user_id,
       status: Not(Status.DELETED),
       userTasks: {
-        status: Not(Status.DELETED)
+        status: Not(Status.DELETED),
+        task_type: taskType? taskType: null,
       }
     },
     relations: {
-      userTasks: true
+      userTasks: true,
     },
     // take: 1,
     // skip: 0
@@ -43,15 +45,25 @@ const listUserTaskByID = async(user_id: number, task_id: number): Promise<userDB
       userTasks: {
         id: task_id,
         status: Not(Status.DELETED)
-      } 
+      },
     }, 
     relations: {
-      userTasks: true
+      userTasks: true,
     }
   })
 }
-
+const listUserSubTask = async( user_id: number, task_id: number ): Promise<Array<userDB>> => {
+  return await AppDataSource.manager
+    .getRepository(User)
+    .createQueryBuilder('user')
+    .innerJoinAndSelect('user.userTasks','tasks')
+    .innerJoinAndSelect('tasks.SubTask', 'subTask')
+    .where('user.id = :id', {id: user_id})
+    .andWhere('tasks.id = :taskID', {taskID: task_id})
+    .getMany()
+}
 export {
   listUserTasks,
-  listUserTaskByID
+  listUserTaskByID,
+  listUserSubTask
 };

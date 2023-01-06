@@ -61,6 +61,4 @@ export class Tasks {
 
   @ManyToOne(()=> Tasks, (tasks) => tasks.SubTask)
   mainTask: Tasks
-
-
 }

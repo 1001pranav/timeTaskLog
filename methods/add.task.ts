@@ -44,7 +44,16 @@ const addTask = async (req, res, next) => {
     }
 
     if ( !TaskType[taskType] ) taskType = TaskType.MAIN;
-    else if( taskType ) taskType = taskType[taskType];
+    else if( taskType ) taskType = TaskType[taskType];
+
+    if( taskType === TaskType.DAILY_TASK ) {
+      if ( !startTime || startTime == "" ) {
+        startTime = (new Date().setUTCHours(0, 0, 0, 0));
+      }
+      if( !endTime || endTime == "" ) {
+        endTime = new Date().setUTCHours(23,59,59,999)
+      }
+    }
 
     if ( task_id ) {
       const userTaskData: userDB = await listUserTaskByID(userData.id, task_id);
