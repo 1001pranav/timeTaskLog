@@ -1,13 +1,14 @@
-import './App.css';
+import './styles/App.css';
 
-import ProjectsPage from './components/projectsPage';
-
+import NavComponent from './components/nav';
+import { Login } from './components/login';
 
 function App() {
   
   return (
    <div className='container'>
-    <ProjectsPage />
+    <NavComponent />
+    <Login />
    </div>
   )
 }

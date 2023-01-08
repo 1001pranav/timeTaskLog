@@ -1,0 +1,10 @@
+nav {
+    background-color: aliceblue;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+nav > h3 {
+    font: 600 1.5rem cursive;
+    color:black;
+
+}
