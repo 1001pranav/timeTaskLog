@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Time Task Log",
+  "name": "Time Task Log is for logging the task and plan the task.",
   "icons": [
     {
       "src": "favicon.ico",
