@@ -47,7 +47,6 @@ const registerUser  = async (req, res, next) => {
   password = await hash(password, 10);
   await createUser({
     userName: user_name,
-    createdBy: userData.id,
     email: email_id,
     password
   })

@@ -3,8 +3,9 @@
     "HOST": "localhost",
     "PORT": 3306,
     "USERNAME": "root",
-    "password": "1001@PrVn",
+    "password": "",
     "TYPE": "mysql",
     "DATABASE": "tasks"
-  }
+  },
+  "PORT": 3002
 }

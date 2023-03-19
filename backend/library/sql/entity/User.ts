@@ -32,9 +32,6 @@ export class User {
   @CreateDateColumn()
   created_at: Date
 
-  @Column()
-  created_by: number
-
   @ManyToMany(()=> Tasks)
   @JoinTable()
   userTasks: Tasks[]

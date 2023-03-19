@@ -20,8 +20,7 @@ export enum TaskType {
 export interface userData {
   userName: string, 
   email: string, 
-  password: string,
-  createdBy: number 
+  password: string
 }
 
 export interface addTasks {
@@ -45,7 +44,6 @@ export interface userDB {
   access_token: string,
   status: Status,
   created_at: Date,
-  created_by: number,
   userTasks: Array<tasksDB>
 }
 

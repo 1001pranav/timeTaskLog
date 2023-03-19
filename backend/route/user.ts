@@ -10,7 +10,7 @@ router.post("/login", async (req: Request, res: Response, next: NextFunction) =>
   await login(req, res, next);
 })
 
-router.post("/register", verifyAccessToken, async( req: Request, res: Response, next: NextFunction )=> {
+router.post("/register",  async( req: Request, res: Response, next: NextFunction )=> {
   await registerUser(req, res, next);
 } )
 export = router;

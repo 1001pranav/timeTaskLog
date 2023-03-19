@@ -24,7 +24,6 @@ const getUserByID = async (userID: number ) => {
 const createUser = async (userObj: userData)  => {
   const user = new User()
   user.user_name = userObj.userName;
-  user.created_by = userObj.createdBy;
   user.email = userObj.email;
   user.password = userObj.password;
   await AppDataSource.manager.save(user);

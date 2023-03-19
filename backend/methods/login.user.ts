@@ -13,6 +13,7 @@ const login = async(req, res, next ) => {
   // Checking for status messages.
   // console.log(email_id, req.query, req.body);
   
+  // Error responses for required data
   {  
     if( !email_id ) {
       const statusMessage = replaceStatusMessage("MISSING_DATA", {"<data>": "email_id"} )
@@ -31,9 +32,9 @@ const login = async(req, res, next ) => {
   }
 
   const userData =( await getUser({email: email_id}))[0];
-  
+  console.log(userData)
   if( !userData ) {
-
+    
     const statusMessage = replaceStatusMessage("NOT_FOUND", { "<data>": email_id })
     res.status(RESPONSE.NOT_FOUND.statusCode).json({
       ...RESPONSE.NOT_FOUND,
