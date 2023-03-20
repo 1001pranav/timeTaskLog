@@ -104,12 +104,13 @@ code {
   /* align-items: stretch; */
   justify-content: space-around;
   /* margin: 0.5em; */
+  width: 100%;
   gap: 1rem;
 }
 
-input[type="password"], input[type="text"] {
+input[type="password"], input[type="email"], input[type="text"] {
   height: 2rem;
-  width: 120%;
+  width: 80%;
   /* box-shadow: black 1rem; */
   border:  solid 2px rgb(110, 106, 106);
   border-radius: 10px;
@@ -119,8 +120,34 @@ input[type="password"], input[type="text"] {
   text-align: center;
 }
 
+input[type="password"], input[type="email"], input[type="text"] :active {
+  border: solid 2px rebeccapurple;
+}
+
 input[type="submit"], input[type="reset"]{
   display: flex;
   justify-content: space-between;
+  width: 90px;
+  text-align: center;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 30px;
+  margin: 0px auto;
+  font-weight: bold;
+}
 
+input[type="submit"] {
+  background: lawngreen;
+  
+}
+input[type="reset"] {
+  background-color: yellow;
+  
+}
+.errorCard {
+  width: 35%;
+  height: 10%;
+  display: flex;
+  border: solid 2px red;
+  box-shadow:  red 2px 2px 1px 1px;
 }

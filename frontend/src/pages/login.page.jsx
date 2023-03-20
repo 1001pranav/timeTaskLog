@@ -1,30 +1,85 @@
-import { useState } from "react";
-import { Button } from "../components/button.component";
+import {  useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Input from "../components/input.component";
-
-
+import { RESPONSE_STATUS, API_RESOURCE } from "../constants/API.const";
+import { makePOSTMethod } from "../services/apiServices";
+import { Error } from "../components/api.card";
 
 export function LoginPage() {
+
+  const navigation = useNavigate();
   const [userDetails, setUserDetails] = useState({
     username: "",
     password:""
   })
 
+  const [ apiResponse, setAPIResponse ] = useState({
+    code: 502,
+    message: "Failed to connect to server",
+    data: {}
+  })
   const setUserName = (event) => setUserDetails({ ...userDetails, username: event.target.value });
   const setPassword = (event) => setUserDetails({ ...userDetails, password: event.target.value });
 
+  function  handleSubmit(event) {
+    try {
+        event.preventDefault();
+      if( userDetails?.username === " " || userDetails?.password === " " ) {
+        alert("Please enter username and password");
+        return
+      } 
+      makePOSTMethod({
+        apiResource: API_RESOURCE.login,
+        headers: { 
+          'Access-Control-Allow-Origin':'*', 
+          "content-type": "application/json",
+          Accept:"application/json"
+        },
+        data: {
+          email_id:  userDetails.username,
+          password: userDetails.password
+        }
+      }).then((responseData)=> {
+        console.log(responseData);
+        setAPIResponse({
+          ...apiResponse,
+          code: responseData.statusCode,
+          message: responseData.statusMessage,
+          data: responseData.data
+        })
+      })
+      console.log(apiResponse);
+    } catch (error) {
+      console.error("API Fetch error", error);
+    }
+  }
+
+  function handleResponse() {
+    if(apiResponse.code === RESPONSE_STATUS.SUCCESS)  {
+          localStorage.setItem("access_token", apiResponse.data.access_token);
+          navigation("/tasks/view");
+        } else{
+          return  <Error message={apiResponse.message} />
+        }
+  }
   // setUserDetails({userDetails});
   return (
-    <div className="formContainer" >
-      <form  className="form">
-        <Input type={"text"} name={"user_name"} value={userDetails.username} handleValue={setUserName} placeHolder={"User name"} className={"formInp"} required
-        ={true} />
-        <Input type={"password"} name={"password"} placeHolder={"password"} required={true}  handleValue={setPassword}/>
-        <div className="formButton">
-          <Input type={"submit"} />
-          <Input type={"reset"} />  
-        </div>
-      </form >
+    <div>
+      <div className="formContainer" >
+        <form  className="form" onSubmit={handleSubmit}>
+          <Input type={"email"} name={"user_name"} value={userDetails.username} handleValue={setUserName} placeHolder={"Email ID"} className={"formInp"} required
+          ={true} />
+          <Input type={"password"} name={"password"} placeHolder={"password"} required={true}  handleValue={setPassword}/>
+          <div className="formButton">
+            <Input type={"submit"} />
+            <Input type={"reset"} />  
+          </div>
+        </form >
+      </div>
+
+      {handleResponse()
+        }
     </div>
   )
 }
