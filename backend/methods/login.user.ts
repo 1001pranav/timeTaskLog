@@ -33,7 +33,7 @@ const login = async(req, res, next ) => {
 
   const userData =( await getUser({email: email_id}))[0];
   console.log(userData)
-  if( !userData ) {
+  if( !userData || !userData?.user_id ) {
     
     const statusMessage = replaceStatusMessage("NOT_FOUND", { "<data>": email_id })
     res.status(RESPONSE.NOT_FOUND.statusCode).json({

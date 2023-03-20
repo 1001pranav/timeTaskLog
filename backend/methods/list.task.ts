@@ -81,13 +81,20 @@ const listTask = async (req, res, next) => {
       }
     }
     
-    
+    const metaData : {limit: number, page_number: number, total_count: number} = {
+      limit,
+      page_number,
+      total_count: tasks.length
+    }
     if( limit ) {
       if (page_number) page_number -= 1;
       else page_number = 0;
       tasks = tasks.slice(page_number, page_number+limit);
     }
-    res.status(RESPONSE.SUCCESS.statusCode).json({...RESPONSE.SUCCESS, data: {tasks} })
+    res.status(RESPONSE.SUCCESS.statusCode).json({...RESPONSE.SUCCESS, data: {
+      tasks, 
+      meta_data: metaData
+    } })
   } catch (error) {
     console.log("Error: tasks/list", error);
     
