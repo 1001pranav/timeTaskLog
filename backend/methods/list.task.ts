@@ -95,6 +95,7 @@ const listTask = async (req, res, next) => {
       tasks, 
       meta_data: metaData
     } })
+    return
   } catch (error) {
     console.log("Error: tasks/list", error);
     

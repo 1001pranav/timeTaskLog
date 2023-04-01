@@ -44,6 +44,7 @@ app.all("*", (req: Request, res: Response) => {
   res.status(RESPONSE.ROUTE_NOT_FOUND.statusCode).json({
     ...RESPONSE.ROUTE_NOT_FOUND
   })
+  return { status: 404 }
 })
 
 

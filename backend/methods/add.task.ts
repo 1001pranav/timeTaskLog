@@ -99,6 +99,7 @@ const addTask = async (req, res, next) => {
     }
     
     res.status(RESPONSE.SUCCESS.statusCode).json(RESPONSE.SUCCESS);
+    return {}
   } catch (error) {
     console.log("API: task/add", error);
     res.status(RESPONSE.SOMETHING_WRONG.statusCode).json(RESPONSE.SOMETHING_WRONG);

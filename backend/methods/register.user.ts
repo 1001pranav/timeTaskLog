@@ -16,6 +16,7 @@ const registerUser  = async (req, res, next) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return {}  
     }
 
     if( !password ) {
@@ -24,6 +25,7 @@ const registerUser  = async (req, res, next) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return {}
     }
 
     if( !email_id ) {
@@ -32,6 +34,7 @@ const registerUser  = async (req, res, next) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return {}
     }
   }
   const userExistCheck = (await getUser({email: email_id}))[0];
@@ -41,7 +44,8 @@ const registerUser  = async (req, res, next) => {
     res.status(RESPONSE.EXISTS.statusCode).json({
       ...RESPONSE.EXISTS,
       statusMessage
-    })
+    });
+    return {}
   }
   
   password = await hash(password, 10);
@@ -53,6 +57,7 @@ const registerUser  = async (req, res, next) => {
   res.status(RESPONSE.SUCCESS.statusCode).json({
     ...RESPONSE.SUCCESS
   })
+  return {}
 }
 
 export { registerUser };
