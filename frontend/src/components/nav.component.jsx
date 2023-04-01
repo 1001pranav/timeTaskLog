@@ -57,7 +57,7 @@ export function NavBar({title, navClass, navID, navItems}) {
 
   if ( accessToken ) {
     const path = location.pathname.split("/");
-    console.log("path",path[0], location.pathname.split("/"), location.pathname);
+    
     if( path[1] === "" ) {
       navItems = [ 
         navButtons.VIEW_TASK, 
@@ -160,9 +160,9 @@ export function NavBar({title, navClass, navID, navItems}) {
   
   return ( 
     <div className={navClass}>
-      <h3>
+      <h2>
         {title}
-      </h3>
+      </h2>
       <Button name={"="} nameClass={"webMenuButton"} /  > 
 
       <ul className="navClass" >
@@ -177,9 +177,6 @@ export function NavBar({title, navClass, navID, navItems}) {
   )
 }
 
-export function TaskSubNav({title, navClass, navID, }){
-
-}
 function List({items, key}) {
   return (
     <li>

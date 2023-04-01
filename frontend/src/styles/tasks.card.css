@@ -1,0 +1,136 @@
+.task-container {
+  margin-top: 10px;
+  width: 50%;
+  margin: 15px;
+  padding-left:13px;
+}
+
+.container-top {
+  display: flex;
+  /* padding-bottom: 10px; */
+  justify-content: space-between;
+}
+
+.top-priority .top-title .top-goal{
+  /* padding-bottom: 12px; */
+  display: flex;
+  border: 2px solid black
+}
+.top-title {
+  border: solid 2px #6e5e5e;
+  width: 40%;
+  height: 20px;
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  margin-top: 5px;
+  /* margin-left: 2px; */
+  border-radius: 25px 25px 0px 0px;
+}
+.time-margin {
+  margin-left: 7px;
+}
+
+.task-card {
+  display: flex;
+  justify-content: space-between;
+  background-color: #EFBCD5;
+  background: rgb(249,2,28);
+  background: linear-gradient(
+    20deg, 
+    rgba(249,2,28,0.6503851540616247) 0%, 
+    rgba(249,229,2,0.5467436974789917) 42%, 
+    rgba(188,2,249,0.6391806722689075) 93%
+  );
+}
+
+
+input[type="time"] {
+  border: solid 2px grey;
+  border-radius: 25px;
+  height: 25px;
+}
+.task-card-sub{
+  display: flex;
+  justify-content: space-around;
+  margin-right: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.card-start {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px; 
+  /* margin-top: 10px; */
+  /* margin-bottom: 10px; */
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card-desc {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* height: 90px; */
+  /* margin-left: 100px */
+}
+
+.card-end {
+  display: flex;
+  flex-direction: column ;
+  justify-content: space-between
+}
+
+.card-misc {
+  display: flex;
+  flex-direction: column;
+  /* align-content: center; */
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.container-footer{
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  background: rgb(64,60,143);
+  background: linear-gradient(33deg, rgb(126, 220, 43) 25%, rgba(68, 3, 3, 0.834) 75%);
+
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  width: 30px;
+  border: 1px solid gray;
+  border-radius: 100px;
+  text-align: center;
+  height: 30px;
+}
+
+select {
+  height: 41px;
+  border:#6e5e5e solid 2px;
+  width: 60%;
+}
+
+option {
+  background-color: grey;
+  font-size: medium;
+}
+
+input[type="time"] {
+  margin-bottom: 5px;
+}
+
+button{
+  background-color: unset;
+  border: none;
+}

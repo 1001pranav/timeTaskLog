@@ -56,6 +56,7 @@ export default function Register() {
   return (
     <div className="formContainer">
       <form className="form" onSubmit={handleSubmit}>
+        <h3>Register</h3>
         <Input type={"text"} name={"user_name"} required={true} placeHolder={"user name"} className={"formInp"} handleValue={setUserName} value={register.user_name}/>
         <Input type={"email"} name={"email_id"} required={true} placeHolder={"Email ID"} className={"formInp"} handleValue={setEmail} value={register.email_id}/>
         <Input type={"password"} name={"password"} required={true} placeHolder={"password"} className={"formInp"} handleValue={setPassword} value={register.password}/>
