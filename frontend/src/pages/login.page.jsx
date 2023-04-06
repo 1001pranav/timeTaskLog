@@ -15,6 +15,7 @@ export function LoginPage() {
   })
 
   const [ apiResponse, setAPIResponse ] = useState({
+    apiCalled: false,
     code: 502,
     message: "Failed to connect to server",
     data: {}
@@ -44,6 +45,7 @@ export function LoginPage() {
         console.log(responseData);
         setAPIResponse({
           ...apiResponse,
+          apiCalled: true,
           code: responseData.statusCode,
           message: responseData.statusMessage,
           data: responseData.data
@@ -59,15 +61,17 @@ export function LoginPage() {
     if(apiResponse.code === RESPONSE_STATUS.SUCCESS)  {
           localStorage.setItem("access_token", apiResponse.data.access_token);
           navigation("/tasks/view");
-        } else{
+        } else if(apiResponse.apiCalled) {
           return  <Error message={apiResponse.message} />
         }
   }
   // setUserDetails({userDetails});
   return (
-    <div>
+    <>
+      {handleResponse()}
       <div className="formContainer" >
         <form  className="form" onSubmit={handleSubmit}>
+          <h2>Login</h2>
           <Input type={"email"} name={"user_name"} value={userDetails.username} handleValue={setUserName} placeHolder={"Email ID"} className={"formInp"} required
           ={true} />
           <Input type={"password"} name={"password"} placeHolder={"password"} required={true}  handleValue={setPassword}/>
@@ -77,9 +81,6 @@ export function LoginPage() {
           </div>
         </form >
       </div>
-
-      {handleResponse()
-        }
-    </div>
+    </>
   )
 }

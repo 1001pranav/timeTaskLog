@@ -10,6 +10,7 @@ export default function RoutesComponent(options) {
       <Route path='/login' element={<LoginPage/>}/>
       <Route path='/register' element={<Register/>} />
       <Route path='/tasks/view' element={<ViewTasks/>}/>
+      <Route path='/tasks/view' element={<ViewTasks/>}/>
       <Route path='/logout' element={< Logout />}/>
     </Routes>
   )

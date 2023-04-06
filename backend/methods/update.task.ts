@@ -32,6 +32,7 @@ const  updateTask = async (req, res, next) => {
       ...RESPONSE.MISSING_DATA,
       statusMessage: updatedMessage
     });
+    return {}
   } 
 
    if( spent_time && !verifyTime(spent_time) ){
@@ -56,7 +57,8 @@ const  updateTask = async (req, res, next) => {
     res.status(RESPONSE.NOT_FOUND.statusCode).json({
       ...RESPONSE.NOT_FOUND,
       statusMessage
-    })
+    });
+    return {}
   }
   let updateObj: updateTask = {
     status: undefined
@@ -78,7 +80,7 @@ const  updateTask = async (req, res, next) => {
   
   await taskUpdate( updateObj, task_id );
   res.status(RESPONSE.SUCCESS.statusCode).json(RESPONSE.SUCCESS)
-  
+  return {}
 }
 
  

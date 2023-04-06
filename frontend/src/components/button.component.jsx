@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import 'font-awesome/css/font-awesome.min.css';
 
 export function Button({name, nameClass, nameID, title, onClick, styles}) {
 
@@ -20,4 +20,12 @@ export function LinkButton({name, route, className, title}) {
       <Link className={className} title={title} to={route}>{name}</Link>
     </>
   )
+}
+
+export function ImageButton ({ Component,title, nameClass, nameID, styles, onClick }) {
+  return (
+    <> 
+      <button title={title} className={nameClass} id = {nameID} style={styles} onClick={onClick}> <Component/> </button> 
+    </>
+  );
 }
