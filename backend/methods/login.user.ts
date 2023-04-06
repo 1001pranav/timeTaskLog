@@ -21,6 +21,7 @@ const login = async(req, res, next ) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return;
     }
     if( !password ) {
       const statusMessage = replaceStatusMessage("MISSING_DATA", {"<data>": "password"});
@@ -28,18 +29,19 @@ const login = async(req, res, next ) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return;
     }
   }
 
   const userData =( await getUser({email: email_id}))[0];
-  console.log(userData)
-  if( !userData || !userData?.user_id ) {
+  if( !userData || !userData?.id ) {
     
     const statusMessage = replaceStatusMessage("NOT_FOUND", { "<data>": email_id })
     res.status(RESPONSE.NOT_FOUND.statusCode).json({
       ...RESPONSE.NOT_FOUND,
       statusMessage
     })
+    return;
   }
   
   if(await compare(password, userData.password)) {
@@ -53,9 +55,11 @@ const login = async(req, res, next ) => {
         access_token: accessToken
       }
     })
+    return;
   }
   else {    
     res.status(RESPONSE.PASSWORD_NOT_FOUND.statusCode).json(RESPONSE.PASSWORD_NOT_FOUND)
+    return;
   }
   
 }

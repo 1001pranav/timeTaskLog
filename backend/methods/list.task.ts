@@ -11,8 +11,8 @@ const listTask = async (req, res, next) => {
     const { task_id, sub_task: subTasks } = req.query;
     let { limit, page_number, task_type } = req.query;
 
-    limit = limit? limit: 0;
-    page_number = page_number? page_number: 0;
+    limit = limit? limit: 0; // can use ??
+    page_number = page_number? page_number: 0; // can use ??
 
     let tasks = [];
     
@@ -63,7 +63,6 @@ const listTask = async (req, res, next) => {
         console.log(userDataTasks.userTasks);
         
         userDataTasks.userTasks.forEach((userTasksObj) => {
-          console.log(userTasksObj);
           
           tasks.push({
             task_id: userTasksObj.id, 
@@ -74,6 +73,7 @@ const listTask = async (req, res, next) => {
             spent_time: userTasksObj.spent_time,
             total_time: userTasksObj.total_time, 
             task_type: userTasksObj.task_type,
+            task_priority: userTasksObj.task_priority,
             competition_percentage: userTasksObj.competition_percentage,
             status: userTasksObj.status
           })
@@ -89,7 +89,7 @@ const listTask = async (req, res, next) => {
     if( limit ) {
       if (page_number) page_number -= 1;
       else page_number = 0;
-      tasks = tasks.slice(page_number, page_number+limit);
+      tasks = tasks.slice(page_number, page_number+limit); // Doubt
     }
     res.status(RESPONSE.SUCCESS.statusCode).json({...RESPONSE.SUCCESS, data: {
       tasks, 

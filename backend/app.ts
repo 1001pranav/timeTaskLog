@@ -1,5 +1,10 @@
 import express, { Request, Response } from 'express';
+//  The "cors" middleware is commonly used in web applications to handle Cross-Origin Resource Sharing 
+//  (CORS) headers, which allow requests from one domain to access resources on another domain.
 import cors from "cors";
+//  "reflect-metadata" library, which provides a way to add and read metadata annotations on classes,
+//   methods, and properties in TypeScript. This library can be used to implement advanced features 
+//   such as dependency injection and decorators.
 import "reflect-metadata";
 import { RESPONSE } from './constant/response';
 
@@ -22,6 +27,7 @@ import dailyLogRoute from './route/dailyLog';
 import subTaskRoute from './route/subTask';
 import taskRoute from './route/task';
 import userRoute from './route/user';
+import usRoute from './route/us'
 
 
 const app = express();
@@ -38,6 +44,7 @@ app.use("/user", userRoute);
 app.use('/dailyLog', dailyLogRoute);
 app.use('/task', taskRoute);
 app.use('/subTask', subTaskRoute);
+app.use("/us", usRoute);
 
 // Error response for invalid routes.
 app.all("*", (req: Request, res: Response) => {

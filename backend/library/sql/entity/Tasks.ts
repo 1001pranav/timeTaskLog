@@ -5,7 +5,7 @@ import {
   OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 
-import { Status, TaskType } from '../../../constant/constant';
+import { Status, TaskPriority, TaskType } from '../../../constant/constant';
 
 @Entity()
 export class Tasks {
@@ -31,6 +31,13 @@ export class Tasks {
     default: TaskType.MAIN
   })
   task_type: TaskType
+
+  @Column({
+    type: 'enum',
+    enum: TaskPriority,
+    default: TaskPriority.NOT_IMPORTANT
+  })
+  task_priority: TaskPriority
 
   @Column({
     default: 0

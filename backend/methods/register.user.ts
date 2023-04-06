@@ -3,7 +3,7 @@ import { RESPONSE } from "../constant/response";
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
 import { createUser, getUser } from "../library/sql/user.sql";
 
-const registerUser  = async (req, res, next) => {
+const registerUser  = async (req, res, next) : Promise<void> => {
 
   const userData = res.locals.userData;
   console.log(userData);
@@ -16,6 +16,7 @@ const registerUser  = async (req, res, next) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return;
     }
 
     if( !password ) {
@@ -24,6 +25,7 @@ const registerUser  = async (req, res, next) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return;
     }
 
     if( !email_id ) {
@@ -32,6 +34,7 @@ const registerUser  = async (req, res, next) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
+      return;
     }
   }
   const userExistCheck = (await getUser({email: email_id}))[0];
@@ -42,6 +45,7 @@ const registerUser  = async (req, res, next) => {
       ...RESPONSE.EXISTS,
       statusMessage
     })
+    return;
   }
   
   password = await hash(password, 10);
@@ -53,6 +57,7 @@ const registerUser  = async (req, res, next) => {
   res.status(RESPONSE.SUCCESS.statusCode).json({
     ...RESPONSE.SUCCESS
   })
+  return;
 }
 
 export { registerUser };

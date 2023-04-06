@@ -14,6 +14,7 @@ const addTasks = async (
   tasks.spent_time = taskObj.spentTime;
   tasks.total_time = taskObj.totalTime;
   tasks.task_type = taskObj.taskType;
+  tasks.task_priority = taskObj.taskPriority,
   tasks.competition_percentage =  taskObj.completionPercentage;
   tasks.status = taskObj.status;
   tasks.created_by = taskObj.createdBy;
