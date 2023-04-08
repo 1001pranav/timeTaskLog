@@ -1,7 +1,7 @@
 
 const jsonSecret = "exabc_asdwec4424_sda"
 
-export { jsonSecret }; //why it is used? it can be declared in line 2 right?
+export { jsonSecret }; 
 
 export enum Status {
   ACTIVE = 1,

@@ -3,7 +3,7 @@ import { RESPONSE } from "../constant/response";
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
 import { createUser, getUser } from "../library/sql/user.sql";
 
-const registerUser  = async (req, res, next) : Promise<void> => {
+const registerUser  = async (req, res, next) : Promise<Object> => {
 
   const userData = res.locals.userData;
   console.log(userData);
@@ -44,6 +44,7 @@ const registerUser  = async (req, res, next) : Promise<void> => {
     res.status(RESPONSE.EXISTS.statusCode).json({
       ...RESPONSE.EXISTS,
       statusMessage
+    })
     return {}
   }
   
