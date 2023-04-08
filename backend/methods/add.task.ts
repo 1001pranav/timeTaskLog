@@ -1,4 +1,4 @@
-import { Status, tasksDB, TaskType, userDB } from "../constant/constant";
+import { Status, TaskPriority, tasksDB, TaskType, userDB } from "../constant/constant";
 import { RESPONSE } from "../constant/response";
 
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
@@ -20,6 +20,7 @@ const addTask = async (req, res, next) => {
       end_time: endTime,
       completion_percentage: completionPercentage,
       task_type: taskType,
+      task_priority: taskPriority,
     } = req.body;
 
     if( !name ) {
@@ -54,6 +55,9 @@ const addTask = async (req, res, next) => {
         endTime = new Date().setUTCHours(23,59,59,999)
       }
     }
+
+    if(!TaskPriority[taskPriority]) taskPriority = TaskPriority.NOT_IMPORTANT
+    else if(taskPriority) taskPriority = TaskPriority.NOT_IMPORTANT;
 
     if ( task_id ) {
       const userTaskData: userDB = await listUserTaskByID(userData.id, task_id);
@@ -90,6 +94,7 @@ const addTask = async (req, res, next) => {
       completionPercentage, 
       status: Status.ACTIVE, 
       taskType, 
+      taskPriority,
       createdBy: userData.id
     });
     await updateUserTasks(userData.id, taskData);

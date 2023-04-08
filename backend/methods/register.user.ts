@@ -3,7 +3,7 @@ import { RESPONSE } from "../constant/response";
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
 import { createUser, getUser } from "../library/sql/user.sql";
 
-const registerUser  = async (req, res, next) => {
+const registerUser  = async (req, res, next) : Promise<void> => {
 
   const userData = res.locals.userData;
   console.log(userData);
@@ -16,7 +16,7 @@ const registerUser  = async (req, res, next) => {
         ...RESPONSE.MISSING_DATA,
         statusMessage
       })
-      return {}  
+      return {}
     }
 
     if( !password ) {
@@ -44,7 +44,6 @@ const registerUser  = async (req, res, next) => {
     res.status(RESPONSE.EXISTS.statusCode).json({
       ...RESPONSE.EXISTS,
       statusMessage
-    });
     return {}
   }
   

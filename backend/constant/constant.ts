@@ -1,7 +1,7 @@
 
 const jsonSecret = "exabc_asdwec4424_sda"
 
-export { jsonSecret };
+export { jsonSecret }; //why it is used? it can be declared in line 2 right?
 
 export enum Status {
   ACTIVE = 1,
@@ -15,6 +15,13 @@ export enum TaskType {
   SUB_TASK = 2,
   DAILY_TASK = 3,
   YEARLY_TASK = 4 
+}
+
+export enum TaskPriority {
+  IMPORTANT_MUST = 1,
+  IMPORTANT = 2,
+  NOT_IMPORTANT_MUST = 3,
+  NOT_IMPORTANT = 4,
 }
 
 export interface userData {
@@ -31,6 +38,7 @@ export interface addTasks {
   totalTime: Date | null;
   spentTime: Date | null;
   taskType: TaskType,
+  taskPriority: TaskPriority,
   createdBy: number,
   status: Status,
   description: string | null
@@ -56,6 +64,7 @@ export interface tasksDB {
   total_time: Date | null,
   spent_time: Date| null,
   task_type: TaskType,
+  task_priority: TaskPriority,
   created_by: number,
   created_at: Date
   status: Status,
