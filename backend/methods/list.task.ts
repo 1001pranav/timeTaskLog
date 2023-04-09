@@ -1,7 +1,7 @@
 import { tasksDB, TaskType, userDB } from "../constant/constant";
 import { RESPONSE } from "../constant/response";
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
-import { listUserSubTask, listUserTaskByID, listUserTasks } from "../library/sql/userTasks.sql";
+import { avgTask, countTasks, getDailyTasks, listUserSubTask, listUserTaskByID, listUserTasks } from "../library/sql/userTasks.sql";
 
 const listTask = async (req, res, next) => {
   
@@ -11,8 +11,8 @@ const listTask = async (req, res, next) => {
     const { task_id, sub_task: subTasks } = req.query;
     let { limit, page_number, task_type } = req.query;
 
-    limit = limit? limit: 0; // can use ??
-    page_number = page_number? page_number: 0; // can use ??
+    limit = limit? limit: 0; 
+    page_number = page_number? page_number: 0;
 
     let tasks = [];
     
@@ -44,7 +44,7 @@ const listTask = async (req, res, next) => {
           end_time: userDataTasks.userTasks[0].end_time,
           total_time: userDataTasks.userTasks[0].total_time,
           spent_time: userDataTasks.userTasks[0].spent_time,
-          completition_percentage: userDataTasks.userTasks[0].competition_percentage,
+          completion_percentage: userDataTasks.userTasks[0].competition_percentage,
           status: userDataTasks.userTasks[0].status,
           subTasks: userDataTasks.userTasks[0].SubTask  
         })
@@ -54,13 +54,14 @@ const listTask = async (req, res, next) => {
     } else {
 
       task_type = task_type && TaskType[task_type] ? TaskType[task_type]: null;
-      console.log(task_type);
-      
-      const userDataTasks: userDB = (await listUserTasks(userData.id, task_type))[0];
-      // const userDataTasks: userDB = (await listUserSubTask(userData.id))[0];
+      let userDataTasks: userDB;
+      if(TaskType.DAILY_TASK !== task_type )
+        userDataTasks = (await listUserTasks(userData.id, task_type))[0];
+      else {
+        userDataTasks = (await getDailyTasks(userData.id))[0];
+      }
       
       if( userDataTasks?.userTasks) {
-        console.log(userDataTasks.userTasks);
         
         userDataTasks.userTasks.forEach((userTasksObj) => {
           
@@ -74,10 +75,17 @@ const listTask = async (req, res, next) => {
             total_time: userTasksObj.total_time, 
             task_type: userTasksObj.task_type,
             task_priority: userTasksObj.task_priority,
-            competition_percentage: userTasksObj.competition_percentage,
+            completion_percentage: userTasksObj.competition_percentage,
             status: userTasksObj.status
           })
         });
+
+        if ( task_type === TaskType.MAIN ) { 
+          for ( let i in tasks ) {
+            tasks[i].average_completion = await avgTask(tasks[i].task_id);
+            tasks[i].tasks_count = await countTasks(tasks[i].task_id);
+          }
+        }
       }
     }
     
