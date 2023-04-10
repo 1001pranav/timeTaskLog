@@ -55,12 +55,13 @@ const listTask = async (req, res, next) => {
 
       task_type = task_type && TaskType[task_type] ? TaskType[task_type]: null;
       let userDataTasks: userDB;
-      if(TaskType.DAILY_TASK !== task_type )
+      if( !task_type || TaskType.DAILY_TASK !== task_type ){
         userDataTasks = (await listUserTasks(userData.id, task_type))[0];
-      else {
+        console.log("UserDataLength", userDataTasks);
+      }else {
         userDataTasks = (await getDailyTasks(userData.id))[0];
       }
-      
+
       if( userDataTasks?.userTasks) {
         
         userDataTasks.userTasks.forEach((userTasksObj) => {
