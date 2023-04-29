@@ -1,4 +1,4 @@
-import { Status, TaskPriority, tasksDB, TaskType, userDB } from "../constant/constant";
+import { Status, TaskPriority, tasksDB, TaskType, userData, userDB } from "../constant/constant";
 import { RESPONSE } from "../constant/response";
 
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
@@ -13,6 +13,8 @@ const addTask = async (req, res, next) => {
 
     const { name, task_id, spent_time: spentTime, total_time: totalTime } = req.body;
     const { userData  } = res.locals;
+
+    console.log(userData);
 
     let { 
       description, 

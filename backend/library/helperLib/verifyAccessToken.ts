@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { decode, JwtPayload, verify } from "jsonwebtoken";
-import { jsonSecret } from "../../constant/constant";
+import { jsonSecret, User } from "../../constant/constant";
 
 import { RESPONSE } from "../../constant/response";
 import { getUser } from "../sql/user.sql";
@@ -14,7 +14,7 @@ const verifyAccessToken = async( req: Request, res: Response, next: NextFunction
   
     if( !accessToken ) {
 
-      const statusMessage = replaceStatusMessage("NOT_FOUND", { "<data>": "access_token" });
+      const statusMessage: string = replaceStatusMessage("NOT_FOUND", { "<data>": "access_token" });
       res.status(RESPONSE.NOT_FOUND.statusCode).json({
         ...RESPONSE.NOT_FOUND,
         statusMessage
@@ -22,11 +22,12 @@ const verifyAccessToken = async( req: Request, res: Response, next: NextFunction
       return {};
 
     }
-    const userData = (await getUser({access_token: accessToken}))[0];
+    const userData: User = (await getUser({access_token: accessToken}))[0];
     
     if( !userData || Array.isArray(accessToken) ) {
 
-      const statusMessage = replaceStatusMessage("NOT_FOUND", { "<data>" : "user" });
+      const statusMessage: string = replaceStatusMessage("NOT_FOUND", { "<data>" : "user" });
+
       res.status(RESPONSE.NOT_FOUND.statusCode).json({
         ...RESPONSE.NOT_FOUND, 
         statusMessage
@@ -39,7 +40,7 @@ const verifyAccessToken = async( req: Request, res: Response, next: NextFunction
     
     if( jwtUserVerify.user_id != userData.id ) {
 
-      const statusMessage = replaceStatusMessage("NOT_FOUND", { "<data>" : "user" });
+      const statusMessage:string = replaceStatusMessage("NOT_FOUND", { "<data>" : "user" });
       res.status(RESPONSE.NOT_FOUND.statusCode).json({
         ...RESPONSE.NOT_FOUND, 
         statusMessage

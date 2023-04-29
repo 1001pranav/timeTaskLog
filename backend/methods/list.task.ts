@@ -1,25 +1,56 @@
-import { tasksDB, TaskType, userDB } from "../constant/constant";
+import {
+  TaskType, 
+  userDB, 
+  Pagination, 
+  User 
+} from "../constant/constant";
 import { RESPONSE } from "../constant/response";
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
-import { avgTask, countTasks, getDailyTasks, listUserSubTask, listUserTaskByID, listUserTasks } from "../library/sql/userTasks.sql";
+import { 
+  avgSubTask, 
+  countSubTasks, 
+  getDailyTasks, 
+  listUserSubTask, 
+  listUserTaskByID, 
+  listUserTasks 
+} from "../library/sql/userTasks.sql";
 
 const listTask = async (req, res, next) => {
   
   try {
 
-    const { userData } = res.locals;
-    const { task_id, sub_task: subTasks } = req.query;
-    let { limit, page_number, task_type } = req.query;
+    const { 
+      userData 
+    }: {
+      userData: User
+    } = res.locals;
+    
+    const { 
+      task_id = 0, 
+    } :{
+      task_id: number, 
+    } = req.query;
 
+    let { 
+      limit = 0, 
+      page_number = 0, 
+    }: Pagination = req.query;
+
+    let {
+      task_type
+    } = req.query;
+
+    console.log(task_type);
+    
     limit = limit? limit: 0; 
     page_number = page_number? page_number: 0;
 
     let tasks = [];
     
-    if( subTasks && !task_id ) {
+    if( task_type === TaskType.SUB_TASK && !task_id ) {
 
       const statusMessage = replaceStatusMessage(
-        "MISSING_DATA", { "<data>": "task_id is required for subTasks" }
+        "MISSING_DATA", { "<data>": "task_id is required for listing sub task" }
       );
 
       res.status(RESPONSE.MISSING_DATA.statusCode).json({
@@ -30,11 +61,14 @@ const listTask = async (req, res, next) => {
     } 
     
     if( task_id ) {
+
       let userDataTasks: userDB;
-      if( subTasks == 1 )
-        userDataTasks = (await listUserSubTask(userData.id, task_id))[0]
+
+      if( task_type === TaskType.SUB_TASK )
+        userDataTasks = (await listUserSubTask(userData.id, task_id))[0];
       else
-        userDataTasks = (await listUserTaskByID(userData.id, task_id));    
+        userDataTasks = (await listUserTaskByID(userData.id, task_id));  
+  
       if(userDataTasks?.userTasks[0]) {
         tasks.push({
           task_id: userDataTasks.userTasks[0].id,
@@ -53,11 +87,10 @@ const listTask = async (req, res, next) => {
      
     } else {
 
-      task_type = task_type && TaskType[task_type] ? TaskType[task_type]: null;
       let userDataTasks: userDB;
+
       if( !task_type || TaskType.DAILY_TASK !== task_type ){
         userDataTasks = (await listUserTasks(userData.id, task_type))[0];
-        console.log("UserDataLength", userDataTasks);
       }else {
         userDataTasks = (await getDailyTasks(userData.id))[0];
       }
@@ -81,35 +114,46 @@ const listTask = async (req, res, next) => {
           })
         });
 
-        if ( task_type === TaskType.MAIN ) { 
+        if ( task_type == TaskType.MAIN ) { 
+
           for ( let i in tasks ) {
-            tasks[i].average_completion = await avgTask(tasks[i].task_id);
-            tasks[i].tasks_count = await countTasks(tasks[i].task_id);
+            tasks[i].average_completion = await avgSubTask(tasks[i].task_id, userData.id);
+            tasks[i].tasks_count = await countSubTasks(tasks[i].task_id, userData.id);
+            console.log(tasks[i].average_completion, tasks[i].tasks_count);            
           }
         }
       }
     }
     
-    const metaData : {limit: number, page_number: number, total_count: number} = {
+    const metaData : {
+      limit: number, 
+      page_number: number, 
+      total_count: number
+    } = {
       limit,
       page_number,
       total_count: tasks.length
     }
+
     if( limit ) {
       if (page_number) page_number -= 1;
       else page_number = 0;
-      tasks = tasks.slice(page_number, page_number+limit); // Doubt
+      tasks = tasks.slice(page_number, page_number+limit);
     }
-    res.status(RESPONSE.SUCCESS.statusCode).json({...RESPONSE.SUCCESS, data: {
-      tasks, 
-      meta_data: metaData
-    } })
-    return
+    
+    res.status(RESPONSE.SUCCESS.statusCode).json({
+        ...RESPONSE.SUCCESS, 
+        data: {
+          tasks, 
+          meta_data: metaData
+        } 
+      }
+    )
+
+    return {};
   } catch (error) {
     console.log("Error: tasks/list", error);
-    
+    return {};
   }
 }
-
-export { listTask };
-
+export { listTask }; 

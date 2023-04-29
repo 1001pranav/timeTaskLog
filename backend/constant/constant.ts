@@ -24,12 +24,20 @@ export enum TaskPriority {
   NOT_IMPORTANT = 4,
 }
 
+
 export interface userData {
   userName: string, 
   email: string, 
   password: string
 }
 
+export interface User {
+  id: number,
+  email: string,
+  password: string,
+  user_name: string,
+  access_token: string
+}
 export interface addTasks {
   name: string, 
   completionPercentage: number,
@@ -74,4 +82,9 @@ export interface tasksDB {
 
 export interface updateTask {
   [key: string]: number | string
+}
+
+export interface Pagination {
+  limit: number,
+  page_number: number
 }
