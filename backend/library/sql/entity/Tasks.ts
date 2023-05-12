@@ -41,7 +41,7 @@ export class Tasks {
 
   @Column({
     default: 0
-  })
+  })  
   competition_percentage: number
 
   @Column('time', {default: "00:00:00"})

@@ -68,35 +68,42 @@ const listUserSubTask = async( user_id: number, task_id: number ): Promise<Array
 const avgSubTask = async(task_id: number, user_id: number): Promise<Number> => {
   let avg: Number = 0;
 
-  const data:{avg: null|number} = await AppDataSource.manager
-    .getRepository(Tasks)
-    .createQueryBuilder("tasks")
-    .select("AVG(competition_percentage)", "avg")
+  const data = await AppDataSource.manager
+    .getRepository(User)
+    .createQueryBuilder("user")
+    .select("AVG(subTask.competition_percentage)", "avg")
     .where("mainTaskId = :id", {id: task_id})
     .innerJoinAndSelect('user.userTasks','tasks')
     .innerJoinAndSelect('tasks.SubTask', 'subTask')
     .where('user.id = :id', {id: user_id})
     .andWhere('tasks.id = :taskID', {taskID: task_id})
-    .getRawOne();
+    .getOne()
   
-  avg = +data.avg?? 0
+  console.log({data});
+  
+  avg = +data?? 0;
+
   return avg;
 }
 
 const countSubTasks = async(task_id: Number, user_id: Number): Promise<Number> => {
   
   let taskCount:number = 0;
-  const data: { count: null|number } = await AppDataSource.manager
-    .getRepository("tasks")
-    .createQueryBuilder("tasks")
-    .select("COUNT(id)", "count")
+  const data = await AppDataSource.manager
+    .getRepository(User)
+    .createQueryBuilder("user")
+    .select("subTask.id")
     .innerJoinAndSelect('user.userTasks','tasks')
-    .innerJoinAndSelect('tasks.SubTask', 'subTask')
+    .innerJoinAndSelect('tasks.mainTask', 'subTask')
     .where('user.id = :id', {id: user_id})
     .andWhere('tasks.id = :taskID', {taskID: task_id})
-    .getRawOne();
+    .getMany()
+
+
+
+  console.log({data:JSON.stringify(data), task_id});
   
-  taskCount = +data.count?? 0; 
+  taskCount =  0; 
   return taskCount;
 }
 

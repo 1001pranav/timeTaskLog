@@ -117,7 +117,7 @@ const listTask = async (req, res, next) => {
         if ( task_type == TaskType.MAIN ) { 
 
           for ( let i in tasks ) {
-            tasks[i].average_completion = await avgSubTask(tasks[i].task_id, userData.id);
+            // tasks[i].average_completion = await avgSubTask(tasks[i].task_id, userData.id);
             tasks[i].tasks_count = await countSubTasks(tasks[i].task_id, userData.id);
             console.log(tasks[i].average_completion, tasks[i].tasks_count);            
           }
