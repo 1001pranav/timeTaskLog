@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "../components/input.component";
 import { API_RESOURCE, RESPONSE_STATUS } from "../constants/API.const";
 import { makePOSTMethod } from "../services/apiServices";
+import '../styles/login.page.css';
 
 export default function Register() {
   
@@ -61,8 +62,8 @@ export default function Register() {
         <Input type={"email"} name={"email_id"} required={true} placeHolder={"Email ID"} className={"formInp"} handleValue={setEmail} value={register.email_id}/>
         <Input type={"password"} name={"password"} required={true} placeHolder={"password"} className={"formInp"} handleValue={setPassword} value={register.password}/>
         <div className="formButton">
-          <Input type={"submit"} />
-          <Input type={"reset"} />  
+          <Input type={"submit"} className={"button submit"}/>
+          <Input type={"reset"} className={"button reset"}/>  
         </div>
       </form>
     </div>

@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 import { Button, LinkButton } from "./button.component";
+import { Fragment } from "react";
 
 
 export function NavBar({title, navClass, navID, navItems}) {
@@ -169,7 +170,12 @@ export function NavBar({title, navClass, navID, navItems}) {
         {
           navItems.map(
             (items, index)=>
-              <List items={items} key={index}/>
+            /*
+              > To avoid the warning of key.  
+            */
+            <Fragment key={index}>
+              <List items={items} keys={index}/>
+            </Fragment>
           )
         }
       </ul>
@@ -177,10 +183,15 @@ export function NavBar({title, navClass, navID, navItems}) {
   )
 }
 
-function List({items, key}) {
+function List({items, keys}) {
   return (
-    <li>
-      <LinkButton name={items.name} key={key} className={"homeBtn"} route={items.route} title={items.title}/>
+    <li key={keys}>
+      <LinkButton 
+        name={items.name} 
+        key={keys} 
+        className={"homeBtn"} 
+        route={items.route} title={items.title}
+      />
     </li>
   )
 }

@@ -1,0 +1,40 @@
+.homePage {
+  display: flex;
+  padding-top: 2px;
+  flex-direction: column;
+}
+
+.taskCard {
+  display: flex;
+  border: 1px solid black;
+  flex-direction: column;
+  background: rgb(114 182 244 / 36%);
+  margin: 0px 3px 0px 2px;
+  padding: 15px;
+}
+
+.taskCard:hover {
+  background: white;
+}
+
+.taskCard p {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.taskCard:active {
+  box-shadow: inset 0px 1px 20px 4px #1e7bf0;
+} 
+
+.taskList {
+  height: 89vh;
+  overflow-y: auto;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
+.taskTitle{
+  display: flex;
+}

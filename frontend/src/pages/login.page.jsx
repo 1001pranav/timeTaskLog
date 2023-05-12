@@ -5,8 +5,9 @@ import Input from "../components/input.component";
 import { RESPONSE_STATUS, API_RESOURCE } from "../constants/API.const";
 import { makePOSTMethod } from "../services/apiServices";
 import { Error } from "../components/api.card";
+import '../styles/login.page.css';
 
-export function LoginPage() {
+export function LoginPage( {loginState}) {
 
   const navigation = useNavigate();
   const [userDetails, setUserDetails] = useState({
@@ -59,11 +60,14 @@ export function LoginPage() {
 
   function handleResponse() {
     if(apiResponse.code === RESPONSE_STATUS.SUCCESS)  {
-          localStorage.setItem("access_token", apiResponse.data.access_token);
-          navigation("/tasks/view");
-        } else if(apiResponse.apiCalled) {
-          return  <Error message={apiResponse.message} />
-        }
+
+      console.log("loginState ==> ", loginState);
+      loginState(1);
+      localStorage.setItem("access_token", apiResponse.data.access_token);
+      navigation("/tasks/view");
+    } else if(apiResponse.apiCalled) {
+      return  <Error message={apiResponse.message} />
+    }
   }
   // setUserDetails({userDetails});
   return (
@@ -72,12 +76,27 @@ export function LoginPage() {
       <div className="formContainer" >
         <form  className="form" onSubmit={handleSubmit}>
           <h2>Login</h2>
-          <Input type={"email"} name={"user_name"} value={userDetails.username} handleValue={setUserName} placeHolder={"Email ID"} className={"formInp"} required
-          ={true} />
-          <Input type={"password"} name={"password"} placeHolder={"password"} required={true}  handleValue={setPassword}/>
+          <Input 
+            type={"email"} 
+            name={"user_name"} 
+            value={userDetails.username} 
+            handleValue={setUserName} 
+            placeHolder={"Email ID"} 
+            required = {true}
+            className={"formInp"}
+          />
+          <Input 
+            type={"password"} 
+            name={"password"} 
+            placeHolder={"password"} 
+            required={true}  
+            handleValue={setPassword}
+            className={"formInp"}
+          />
+          
           <div className="formButton">
-            <Input type={"submit"} />
-            <Input type={"reset"} />  
+            <Input type={"submit"} className={"button submit"} />
+            <Input type={"reset"}  className={"button reset"}/>  
           </div>
         </form >
       </div>

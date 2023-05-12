@@ -1,6 +1,7 @@
 
 export default function Input({
-  type, name,
+  type = "text", 
+  name,
   placeHolder, 
   inputName, 
   value, className, 
@@ -9,24 +10,48 @@ export default function Input({
   return (
     <>
     
-      <input type={type} name={name} required={required} placeholder={placeHolder} value={value} onChange={handleValue }className={className} min={min} max={max}/>
+      <input 
+        type={type}
+         name={name} 
+         required={required} 
+         placeholder={placeHolder} 
+         value={value} 
+         onChange={handleValue }
+         className={className} 
+         min={min} 
+         max={max}
+      />
     
     </>
   )
 }
 
 export function TextArea({
-  name, placeHolder, 
-  value, className, 
-  handleValue, required = false
+  name, 
+  placeHolder, 
+  value, 
+  className, 
+  handleValue, 
+  required = false,
+  onChange
 }) {
  return(<>
-    <textarea name={name} placeholder={placeHolder} value={value} className={className} required={required}></textarea>
+    <textarea 
+      name={name} 
+      onChange={(event)=> {onChange(event)}} placeholder={placeHolder} 
+      value={value} 
+      className={className} 
+      required={required}
+    ></textarea>
   </>)
 }
 
 export function Select({
-  name, options, defaultValue, required = false
+  name, 
+  options, 
+  defaultValue, 
+  required = false,
+  className
 }) {
   const option = [];
   for( let key in options ) {
@@ -34,7 +59,7 @@ export function Select({
   }
   return (
     <>
-      <select name={name} defaultValue={defaultValue}>
+      <select name={name} className={className} defaultValue={defaultValue}>
         {option}
       </select>
     </>

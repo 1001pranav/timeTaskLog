@@ -11,7 +11,14 @@ export function makePOSTMethod({headers, data, apiResource}) {
 
 export function makeGETMethod({headers, data, apiResource}) {
   if(!apiResource)  return {};
-  return fetch(API_ENDPOINT+apiResource+"?"+data, {
+  
+  let requestData = "";
+
+  for( let key in data ) {
+    requestData += key + "=" + encodeURIComponent(data[key]) + "&"; 
+  }
+
+  return fetch(API_ENDPOINT+apiResource+"?"+requestData, {
     method: "GET",
     mode: "cors",
     headers: headers
