@@ -1,12 +1,13 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, ManyToOne,
+  Entity, JoinTable, ManyToMany, ManyToOne,
   OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 
-import { Status, TaskPriority, TaskType } from '../../../constant/constant';
-
+import { Status, TaskPriority, TaskType } from '../../../constant/index';
+// const {Status, TaskPriority, TaskType} = require('../../../constant/index');
+import {User} from './User';
 @Entity()
 export class Tasks {
 
@@ -68,4 +69,8 @@ export class Tasks {
 
   @ManyToOne(()=> Tasks, (tasks) => tasks.SubTask)
   mainTask: Tasks
+
+  @ManyToMany(()=> User, (User) => User.userTasks)
+  @JoinTable()
+  userTasks: User[];
 }

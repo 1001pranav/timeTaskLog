@@ -3,7 +3,7 @@
     "HOST": "localhost",
     "PORT": 3306,
     "USERNAME": "root",
-    "password": "",
+    "password": "password",
     "TYPE": "mysql",
     "DATABASE": "tasks"
   },

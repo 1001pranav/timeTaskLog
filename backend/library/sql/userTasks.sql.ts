@@ -1,12 +1,12 @@
 import { Raw, Not } from "typeorm";
 
-import { Status, TaskType, userDB } from "../../constant/constant";
+import { Status, TaskType, UserDB } from "../../constant/index";
 import { AppDataSource } from "./dataSource";
 
 import { Tasks } from "./entity/Tasks";
 import { User } from "./entity/User";
 
-const listUserTasks = async (user_id: number, taskType: TaskType ) :Promise<Array<userDB>> => {
+const listUserTasks = async (user_id: number, taskType: TaskType ) :Promise<Array<UserDB>> => {
 console.log(taskType);
 
 const userRepository = AppDataSource.getRepository(User);
@@ -36,7 +36,7 @@ const userRepository = AppDataSource.getRepository(User);
   //   .getMany()
 }
 
-const listUserTaskByID = async(user_id: number, task_id: number): Promise<userDB> => {
+const listUserTaskByID = async(user_id: number, task_id: number): Promise<UserDB> => {
 
   const userRepository = AppDataSource.getRepository(User);
   return await userRepository.findOne({
@@ -54,7 +54,7 @@ const listUserTaskByID = async(user_id: number, task_id: number): Promise<userDB
   })
 }
 
-const listUserSubTask = async( user_id: number, task_id: number ): Promise<Array<userDB>> => {
+const listUserSubTask = async( user_id: number, task_id: number ): Promise<Array<UserDB>> => {
   return await AppDataSource.manager
     .getRepository(User)
     .createQueryBuilder('user')
@@ -91,9 +91,9 @@ const countSubTasks = async(task_id: Number, user_id: Number): Promise<Number> =
   let taskCount:number = 0;
   const data = await AppDataSource.manager
     .getRepository(User)
-    .createQueryBuilder("user")
+    .createQueryBuilder("tasks")
     .select("subTask.id")
-    .innerJoinAndSelect('user.userTasks','tasks')
+    .innerJoinAndSelect('user.userTasks','user')
     .innerJoinAndSelect('tasks.mainTask', 'subTask')
     .where('user.id = :id', {id: user_id})
     .andWhere('tasks.id = :taskID', {taskID: task_id})
@@ -107,7 +107,7 @@ const countSubTasks = async(task_id: Number, user_id: Number): Promise<Number> =
   return taskCount;
 }
 
-const getDailyTasks = async(user_id: number): Promise<Array<userDB>> => {
+const getDailyTasks = async(user_id: number): Promise<Array<UserDB>> => {
 
   const date: number = new Date().getDate();
   const month: number = new Date().getMonth() + 1;

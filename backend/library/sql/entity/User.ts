@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGenerat
 
 import { Tasks } from './Tasks';
 
-import { Status } from '../../../constant/constant';
+import { Status } from '../../../constant/index';
 
 @Entity()
 export class User {

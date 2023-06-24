@@ -1,15 +1,15 @@
 import { 
   addTasks, 
-  tasksDB, 
-  updateTask
-} from "../../constant/constant";
+  TasksDB, 
+  UpdateTask
+} from "../../constant/index";
 import { AppDataSource } from "./dataSource";
 import { Tasks } from "./entity/Tasks";
 import { User } from "./entity/User";
 
 const addTasks = async (
   taskObj: addTasks
-) :Promise<tasksDB> => {
+) :Promise<TasksDB> => {
   const tasks = new Tasks();
   tasks.name = taskObj.name;
   tasks.description = taskObj.description
@@ -28,12 +28,12 @@ const addTasks = async (
   return tasks;
 };
 
-const updateTask = async ( taskObj: updateTask, task_id: number) => {
+const updateTask = async ( taskObj: UpdateTask, task_id: number) => {
   await AppDataSource.manager.update(Tasks, {id: task_id}, taskObj);
 }
 
-const addSubTasks = async (taskObj: tasksDB, taskID: number ) => {
-  const subTaskAdd: Array<tasksDB> = await AppDataSource.getRepository(Tasks).find({
+const addSubTasks = async (taskObj: TasksDB, taskID: number ) => {
+  const subTaskAdd: Array<TasksDB> = await AppDataSource.getRepository(Tasks).find({
     where: {
       id: taskID,
     },

@@ -1,10 +1,12 @@
 import { NextFunction } from "express";
-import { RESPONSE } from "../constant/response";
+
+import { RESPONSE } from "../constant/index";
+
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
-import addContactUsQuery from "../library/sql/contactUs.sql";
+import {contactUs} from "../library/sql/sql";
 import { getUserByID } from "../library/sql/user.sql";
 
-const contactUs = async (req: any, res: any, next: NextFunction) => { //Todo need to find types for req, res
+const contactUss = async (req: any, res: any, next: NextFunction) => { //Todo need to find types for req, res
     const { id, email } = req.body;
     let { name : userName } = req.body;
 
@@ -35,7 +37,7 @@ const contactUs = async (req: any, res: any, next: NextFunction) => { //Todo nee
         return;
     } else {
         try {
-            await addContactUsQuery(req.body);
+            await contactUs.default(req.body);
             res.status(RESPONSE.SUCCESS.statusCode).json({...RESPONSE.SUCCESS, data: {name: userName}});
             return;
         } catch (error) {
@@ -46,4 +48,4 @@ const contactUs = async (req: any, res: any, next: NextFunction) => { //Todo nee
     }
 }
 
-export { contactUs };
+export { contactUss };

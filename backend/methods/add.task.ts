@@ -1,20 +1,21 @@
-import { Status, TaskPriority, tasksDB, TaskType, userData, userDB } from "../constant/constant";
-import { RESPONSE } from "../constant/response";
+import { 
+  Status, 
+  TaskPriority, 
+  TasksDB, 
+  TaskType, 
+  UserDB,
+  RESPONSE
+} from "../constant/index";
 
-import { replaceStatusMessage } from "../library/helperLib/responseHelper";
-import { verifyTime } from "../library/helperLib/verifyHelper";
+import { verifyHelper, responseHelper } from "../library/helperLib/helper";
 
-import { addSubTasks, addTasks } from "../library/sql/tasks.sql";
-import { updateUserTasks } from "../library/sql/user.sql";
-import { listUserTaskByID } from "../library/sql/userTasks.sql";
+import { tasks, user, userTasks } from '../library/sql/sql';
 
 const addTask = async (req, res, next) => {
   try {
 
     const { name, task_id, spent_time: spentTime, total_time: totalTime } = req.body;
-    const { userData  } = res.locals;
-
-    console.log(userData);
+    const { userData } = res.locals;
 
     let { 
       description, 
@@ -26,7 +27,7 @@ const addTask = async (req, res, next) => {
     } = req.body;
 
     if( !name ) {
-      const statusMessage = replaceStatusMessage("MISSING_DATA", {"<data>": "name"});
+      const statusMessage = responseHelper.replaceStatusMessage("MISSING_DATA", {"<data>": "name"});
       res.status(RESPONSE.MISSING_DATA.statusCode).json({
         ...RESPONSE.MISSING_DATA,
         statusMessage
@@ -34,14 +35,14 @@ const addTask = async (req, res, next) => {
       return;
     }
 
-    if( spentTime && !verifyTime(spentTime) ){
-      const statusMessage: string = replaceStatusMessage("INCORRECT_DATA", {"<data>": spentTime});
+    if( spentTime && !verifyHelper.verifyTime(spentTime) ){
+      const statusMessage: string = responseHelper.replaceStatusMessage("INCORRECT_DATA", {"<data>": spentTime});
       res.status(RESPONSE.INCORRECT_DATA.statusCode).json({...RESPONSE.INCORRECT_DATA, statusMessage});
       return;
     }
 
-    if( totalTime && !verifyTime(totalTime) ){
-      const statusMessage: string = replaceStatusMessage("INCORRECT_DATA", {"<data>": totalTime});
+    if( totalTime && !verifyHelper.verifyTime(totalTime) ){
+      const statusMessage: string = responseHelper.replaceStatusMessage("INCORRECT_DATA", {"<data>": totalTime});
       res.status(RESPONSE.INCORRECT_DATA.statusCode).json({...RESPONSE.INCORRECT_DATA, statusMessage});
       return;
     }
@@ -62,11 +63,11 @@ const addTask = async (req, res, next) => {
     else if(taskPriority) taskPriority = TaskPriority.NOT_IMPORTANT;
 
     if ( task_id ) {
-      const userTaskData: userDB = await listUserTaskByID(userData.id, task_id);
+      const userTaskData: UserDB = await userTasks.listUserTaskByID(userData.id, task_id);
       
       if ( !userTaskData?.userTasks ) {
 
-        const statusMessage: string = replaceStatusMessage(
+        const statusMessage: string = responseHelper.replaceStatusMessage(
           "NOT_FOUND", {"<data>": `task with task ID: ${task_id}`}
         );
         
@@ -86,7 +87,7 @@ const addTask = async (req, res, next) => {
     else endTime = new Date(endTime);
     if( completionPercentage <= 0 ) completionPercentage = 0;
     
-    const taskData: tasksDB = await addTasks({
+    const taskData: TasksDB = await tasks.addTasks({
       name, 
       description, 
       startTime, 
@@ -97,12 +98,13 @@ const addTask = async (req, res, next) => {
       status: Status.ACTIVE, 
       taskType, 
       taskPriority,
-      createdBy: userData.id
+      createdBy: userData.id,
+      userData
     });
-    await updateUserTasks(userData.id, taskData);
+    await user.updateUserTasks(userData.id, taskData);
 
     if( task_id ) {
-      await addSubTasks(taskData, task_id);
+      await tasks.addSubTasks(taskData, task_id);
     }
     
     res.status(RESPONSE.SUCCESS.statusCode).json(RESPONSE.SUCCESS);

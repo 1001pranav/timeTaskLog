@@ -1,7 +1,8 @@
 import { AppDataSource } from "./dataSource";
 import { ContactUs } from "./entity/contactUs";
+import { ContactUsTypes } from '../../constant/index';
 
-const addContactUsQuery = async (contactObj: any) => {
+const addContactUsQuery = async (contactObj: ContactUsTypes) => {
 
     const { id, name, email, subject, feedbackDescription } = contactObj;
 
@@ -13,8 +14,6 @@ const addContactUsQuery = async (contactObj: any) => {
     contactUs.feedbackDescription = feedbackDescription ?? null;
     // contactUs.date = date ?? Date.now();
 
-    console.log("contactUs",contactUs);
-    
     await AppDataSource.manager.save(contactUs);
     console.log(contactUs);
     

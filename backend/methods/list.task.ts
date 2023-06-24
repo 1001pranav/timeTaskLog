@@ -1,9 +1,9 @@
 import {
   TaskType, 
-  userDB, 
+  UserDB, 
   Pagination, 
   User 
-} from "../constant/constant";
+} from "../constant/index";
 import { RESPONSE } from "../constant/response";
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
 import { 
@@ -62,7 +62,7 @@ const listTask = async (req, res, next) => {
     
     if( task_id ) {
 
-      let userDataTasks: userDB;
+      let userDataTasks: UserDB;
 
       if( task_type === TaskType.SUB_TASK )
         userDataTasks = (await listUserSubTask(userData.id, task_id))[0];
@@ -87,7 +87,7 @@ const listTask = async (req, res, next) => {
      
     } else {
 
-      let userDataTasks: userDB;
+      let userDataTasks: UserDB;
 
       if( !task_type || TaskType.DAILY_TASK !== task_type ){
         userDataTasks = (await listUserTasks(userData.id, task_type))[0];

@@ -1,5 +1,10 @@
-import { Status, updateTask, userDB } from '../constant/constant';
-import { RESPONSE } from '../constant/response';
+import { 
+  Status, 
+  UpdateTask, 
+  UserDB, 
+  RESPONSE 
+} from '../constant/index';
+
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
 import { verifyTime } from '../library/helperLib/verifyHelper';
 import { updateTask as taskUpdate } from '../library/sql/tasks.sql';
@@ -46,7 +51,7 @@ const  updateTask = async (req, res, next) => {
       res.status(RESPONSE.INCORRECT_DATA.statusCode).json({...RESPONSE.INCORRECT_DATA, statusMessage});
       return;
     }
-  const userTask:userDB = await listUserTaskByID( userData.id, task_id);
+  const userTask : UserDB = await listUserTaskByID( userData.id, task_id);
   console.log(userTask);
   
   if( !userTask?.userTasks[0] ) {
@@ -60,7 +65,7 @@ const  updateTask = async (req, res, next) => {
     });
     return {}
   }
-  let updateObj: updateTask = {
+  let updateObj: UpdateTask = {
     status: undefined
   };
 

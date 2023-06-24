@@ -1,8 +1,8 @@
-import { Status, tasksDB, userData, userDB } from '../../constant/constant';
+import { Status, TasksDB, UserData, UserDB } from '../../constant/index';
 import { AppDataSource } from "./dataSource";
 import { User } from "./entity/User";
 
-type getUser = (userObj: {}) => Promise<userData>;
+type getUser = (userObj: {}) => Promise<UserData>;
 
 /**
  * @param {string} userID - String of to find User.
@@ -21,7 +21,7 @@ const getUserByID = async (userID: number ) => {
  * @param {string} password - password to login with
  * @param {string} createdBy - user who refereed the user 
 */
-const createUser = async (userObj: userData)  => {
+const createUser = async (userObj: UserData)  => {
   const user = new User()
   user.user_name = userObj.userName;
   user.email = userObj.email;
@@ -38,10 +38,10 @@ const updateUser = async (id: number, updateData: object) => {
   await AppDataSource.manager.update(User, {id}, updateData);
 }
 
-const updateUserTasks = async (id: number, updateData: tasksDB) => {
+const updateUserTasks = async (id: number, updateData: TasksDB) => {
   console.log(id, updateData);
   
-  const userData: Array<userDB> = await AppDataSource.getRepository(User).find({
+  const userData: Array<UserDB> = await AppDataSource.getRepository(User).find({
     where: {id},
     relations: { userTasks: true}
   });

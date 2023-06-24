@@ -1,5 +1,6 @@
 import { hash } from "bcrypt";
-import { RESPONSE } from "../constant/response";
+
+import { RESPONSE } from "../constant/index";
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
 import { createUser, getUser } from "../library/sql/user.sql";
 

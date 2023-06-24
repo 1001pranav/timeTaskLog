@@ -1,8 +1,7 @@
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 
-import { jsonSecret } from "../constant/constant";
-import { RESPONSE } from "../constant/response";
+import { jsonSecret, RESPONSE } from "../constant/index";
 
 import { replaceStatusMessage } from "../library/helperLib/responseHelper";
 import { getUser, updateUser } from "../library/sql/user.sql";

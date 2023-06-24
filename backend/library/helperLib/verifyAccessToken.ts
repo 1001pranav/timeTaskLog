@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { decode, JwtPayload, verify } from "jsonwebtoken";
-import { jsonSecret, User } from "../../constant/constant";
+import { jsonSecret, User } from "../../constant/index";
 
 import { RESPONSE } from "../../constant/response";
 import { getUser } from "../sql/user.sql";
